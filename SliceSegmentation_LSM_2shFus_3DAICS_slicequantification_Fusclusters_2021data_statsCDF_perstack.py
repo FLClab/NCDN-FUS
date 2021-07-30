@@ -303,9 +303,6 @@ for i,imagei in enumerate(images2):
                     numclusterPLKO.append(len(int))
 
                 namesPLKO.append(os.path.basename(imagei))
-
-                pyplot.plot(numpy.sort(int), numpy.linspace(0, 1, len(int), endpoint=True), label='plko',color='blue')
-                pyplot.scatter(numpy.interp(0.8,numpy.linspace(0, 1, len(int), endpoint=True),numpy.sort(int)),0.8,s=10)
             else:
                 print('##########################I DID SOMETHING ########################################')
 
@@ -314,15 +311,6 @@ for i,imagei in enumerate(images2):
     thresholdedspotstot = numpy.moveaxis(thresholdedspotstot, 2, 0)
     writer = OmeTiffWriter(outpath + 'ThresholdSpotsMask.tiff',overwrite_file=True)
     writer.save(thresholdedspotstot.astype('uint16'))
-
-handles, labels = pyplot.gca().get_legend_handles_labels()
-by_label = OrderedDict(zip(labels, handles))
-for l in pyplot.gca().lines:
-    l.set_alpha(0.3)
-
-pyplot.legend(by_label.values(), by_label.keys(),loc="upper right")
-pyplot.title('Spot Max intensity')
-pyplot.savefig(output_dir  + 'Spot Max intensity' + str(threshint) + '_Cumulativecurve_perframe_noshfus.pdf', transparent=True)
 
 fig, ax = pyplot.subplots(figsize=(12, 8))
 countsP,binsP,p=ax.hist(inthistPLKO, bins=300, density=True, alpha=0.2, label='PLKO')
