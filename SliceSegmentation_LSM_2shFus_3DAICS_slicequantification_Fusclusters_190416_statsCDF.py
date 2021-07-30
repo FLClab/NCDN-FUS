@@ -39,12 +39,12 @@ def get_foreground(img,thresh):
 
 threshint=30000
 path2=os.path.join("D:/Chantelle/190416_FusGranules/*.lsm")
+date="190416"
 
 images2=glob.glob(path2)
 
 print(len(images2))
-
-output_dir=os.path.expanduser("~/Desktop/Chantelle/masks_"+str(threshint)+"_190416_3DAICS_SuggNorm_1p0_0p03_threshes_slicequant_DAPINEW/")
+output_dir=os.path.join(os.getcwd(),"masks_"+date+"_FusGranules/")
 os.makedirs(output_dir,exist_ok=True)
 
 
@@ -56,51 +56,18 @@ inthistNorbin1=[]
 inthistFus5=[]
 inthistPLKO=[]
 
-areahistNorbin=[]
-areahistNorbin1=[]
-areahistFus=[]
-areahistFus5=[]
-areahistPLKO=[]
 
-Norbinratio=[]
-Norbin1ratio=[]
-Fusratio=[]
-Fusratio5=[]
-PLKOratio=[]
-Norbinlindensity=[]
-Fuslindensity=[]
-Fus5lindensity=[]
-PLKOlindensity=[]
-
-Norbinrationum=[]
-Fusrationum=[]
-Fusrationum5=[]
-PLKOrationum=[]
-Norbinarea=[]
-Fusarea=[]
-Fusarea5=[]
-PLKOarea=[]
-Norbindist=[]
-Fusdist=[]
-Fusdist5=[]
-PLKOdist=[]
 Norbinint=[]
 Fusint=[]
 Fusint5=[]
 PLKOint=[]
-PLKOSizeCompare=[]
-NorbinSizeCompare=[]
-FusSizeCompare=[]
-FusSizeCompare5=[]
+
 namesfus=[]
 namesfus5=[]
 namesPLKO=[]
 namesnorbin=[]
 namesnorbin1=[]
-Norbinecc=[]
-Fusecc=[]
 
-PLKOecc=[]
 
 plko=0
 fus=0
@@ -117,10 +84,9 @@ numclusterPLKO=[]
 numclusterNorbin=[]
 numclusterNorbin1=[]
 for i,imagei in enumerate(images2):
-    print(imagei)
+    print(os.path.basename(imagei))
     outpath = output_dir + os.path.basename(imagei)
-    #reader = AICSImage(imagei)
-    #IMG = reader.data.astype(np.float32)
+ 
     image1=tifffile.imread(imagei).astype(np.float32)
     IMG=image1
 
@@ -136,13 +102,6 @@ for i,imagei in enumerate(images2):
 
     project = numpy.moveaxis(project, 0, 2)
 
-    pyplot.figure(figsize=(12, 8))
-    pyplot.imshow(project[:,:,0])
-    pyplot.figure(figsize=(12, 8))
-    pyplot.imshow(project[:,:,1])
-    pyplot.figure(figsize=(12, 8))
-    pyplot.imshow(project[:,:,2])
-    pyplot.show()
 
     #####################
     structure_channel = 0
@@ -157,7 +116,7 @@ for i,imagei in enumerate(images2):
 
 
     ############
-    #Dendrite and Nucleus masks
+    # Nucleus mask
     ############
     
     
@@ -167,7 +126,7 @@ for i,imagei in enumerate(images2):
     #print(thresh)
     DapiMask = (structure_img_smooth-500) > thresh
     dapimask = morphology.binary_dilation(DapiMask, selem=morphology.square(12), out=None)
-    pyplot.imsave(outpath + 'DetectedNucleusMask_2.tiff', dapimask.astype('uint8'))
+    pyplot.imsave(outpath + 'DetectedNucleusMask.tiff', dapimask.astype('uint8'))
     
 
     m, s = norm.fit(struct_img0.flat)
@@ -232,8 +191,8 @@ for i,imagei in enumerate(images2):
     #print('combine',combine.shape)
 
 
-    writer = OmeTiffWriter(outpath + 'SpotsSegmentationAICS.tiff',overwrite_file=True)
-    writer.save(combine.astype('uint16'))
+    # writer = OmeTiffWriter(outpath + 'SpotsSegmentationAICS.tiff',overwrite_file=True)
+    # writer.save(combine.astype('uint16'))
 
 
     thresholdedspotstot = numpy.empty((1024,1024,0), dtype=np.uint16)
@@ -250,7 +209,7 @@ for i,imagei in enumerate(images2):
         crops=[]
         axis=[]
         slices=[]
-        ecc=[]
+
         num=0
         numtest=0
         initimage = numpy.zeros(combine[SliceIT,:,:].shape)
@@ -264,7 +223,7 @@ for i,imagei in enumerate(images2):
                 crop=region.intensity_image
                 crop = crop / numpy.max(crop)
                 crops.append(crop)
-                areafill.append(region.area)
+
 
                 int.append(region.max_intensity)
                 dist.append(region.centroid)
@@ -280,36 +239,8 @@ for i,imagei in enumerate(images2):
         thresholdedspotstot=numpy.dstack((thresholdedspotstot,thresholdedspots))
 
 
-        dists = numpy.array(dist)
-
-
-        countt=[]
-        locallindensity=[]
-        arearatio=[]
-        rationum = []
-
-
-        areas=numpy.array(areafill)
-        dists = numpy.array(dist)
-        #print('dists',dists.shape)
         intensities=numpy.array(int)
-        minint=numpy.min(intensities)
-
-
-        axislengths=numpy.array(axis)
-     
         meanintensities=numpy.mean(intensities)
-        area=numpy.mean(areas)
-
-        distances = scipy.spatial.distance.cdist(dist, dist, 'euclidean')
-
-        notself=numpy.sort(distances)
-        try:
-            mindistances=notself[:,1]
-            meanmindistances = numpy.mean(mindistances)
-        except IndexError:
-            mindistances=[]
-            meanmindistances =[]
 
 
         gamma=0.3
@@ -326,15 +257,12 @@ for i,imagei in enumerate(images2):
                     numclusterNorbin[-1]+=len(int) 
                 else:
                     numclusterNorbin.append(len(int))                
-
-                areahistNorbin.extend(areafill)
                 namesnorbin.append(os.path.basename(imagei))
-                #Norbinecc.extend(ecc)
+
             norb+=1
         elif 'shnorbin01'  in os.path.basename(imagei).split('/')[-1].lower():
             print('norb1')
             
-
             if len(int)>10:
                 inthistNorbin1.extend(int)
                 
@@ -344,8 +272,7 @@ for i,imagei in enumerate(images2):
                     numclusterNorbin1[-1]+=len(int) 
                 else:
                     numclusterNorbin1.append(len(int))                
-    
-                areahistNorbin1.extend(areafill)
+
                 namesnorbin1.append(os.path.basename(imagei))
             norb+=1
 
@@ -354,31 +281,19 @@ for i,imagei in enumerate(images2):
         elif '318'  in os.path.basename(imagei).split('/')[-1].lower():
             print('fus')
             namesfus.append(os.path.basename(imagei))
-
             inthistFus.extend(int)
-            areahistFus.extend(areafill)
-   
+
             fus+=1
 
         elif '315'  in os.path.basename(imagei).split('/')[-1].lower():
             print('fus5')
             namesfus5.append(os.path.basename(imagei))
-
             inthistFus5.extend(int)
-            areahistFus5.extend(areafill)
-      
 
             fus5+=1
 
-
-
         elif 'plko'  in os.path.basename(imagei).split('/')[-1].lower():
             print('PLKO')
-            print(os.path.basename(imagei).split('/')[-1].lower())
-            
-            
- 
-            PLKOarea.append(area)
 
             if len(int)>10:
                 inthistPLKO.extend(int)
@@ -389,7 +304,7 @@ for i,imagei in enumerate(images2):
                     numclusterPLKO[-1]+=len(int) 
                 else:
                     numclusterPLKO.append(len(int))
-                areahistPLKO.extend(areafill)
+
                 namesPLKO.append(os.path.basename(imagei))
  
             plko+=1
@@ -400,21 +315,6 @@ for i,imagei in enumerate(images2):
     writer.save(thresholdedspotstot.astype('uint16'))
 
 
-
-shapiroPLKO=scipy.stats.shapiro(inthistPLKO)
-PLKOAnderson=scipy.stats.anderson(inthistPLKO,'norm')
-
-shapiroNorbin=scipy.stats.shapiro(inthistNorbin)
-NorbinAnderson=scipy.stats.anderson(inthistNorbin,'norm')
-
-print('SHAPIRO ')
-print('Norbin',shapiroNorbin)
-print('PLKO',shapiroPLKO)
-print('ANDERSON')
-print('Norbin',NorbinAnderson)
-print('PLKO',PLKOAnderson)
-KSNorbin=scipy.stats.ks_2samp(inthistNorbin,inthistPLKO)
-print('Norbin',KSNorbin)
 fig, ax = pyplot.subplots(figsize=(12, 8))
 ax.hist(inthistPLKO, bins=300, density=True, alpha=0.2, label='PLKO')
 ax.hist(inthistFus, bins=300, density=True, alpha=0.2, label='shFus315')
@@ -424,34 +324,6 @@ ax.hist(inthistNorbin1, bins=300, density=True, alpha=0.2, label='shNorbin01')
 ax.legend(loc="upper right")
 fig.suptitle('Spot Max intensity')
 pyplot.savefig(outpath + 'Spot Max intensity' + str(threshint) + '.pdf', transparent=True)
-
-fig, ax = pyplot.subplots(figsize=(12, 8))
-countsP,binsP,p=ax.hist(inthistPLKO, bins=300, density=True, alpha=0.2, label='PLKO')
-#peaks, _ = find_peaks(countsP,distance=500)
-#ax.plot(binsP[peaks],countsP[peaks], "x")
-ax.vlines(numpy.mean(inthistPLKO), 0, 0.0005,color='blue', linestyle='dashed', label='meanPLKO')
-ax.vlines(numpy.median(inthistPLKO), 0, 0.0005,color='blue' ,label='medianPLKO')
-a,loc,scale  = scipy.stats.skewnorm.fit(inthistPLKO)
-best_fit_line = scipy.stats.skewnorm.pdf(binsP,a,loc,scale)
-peaks, _ = find_peaks(best_fit_line,distance=500)
-ax.plot(binsP[peaks],best_fit_line[peaks], "x")
-normfactor=binsP[peaks]
-ax.plot(binsP, best_fit_line)
-countsN,binsN,p=ax.hist(inthistNorbin, bins=300, density=True, alpha=0.2, label='shNorbin')
-#peaks, _ = find_peaks(countsN,distance=500)
-#ax.plot(binsN[peaks],countsN[peaks], "x")
-a,loc,scale  = scipy.stats.skewnorm.fit(inthistNorbin)
-best_fit_line = scipy.stats.skewnorm.pdf(binsN,a,loc,scale)
-peaks, _ = find_peaks(best_fit_line,distance=500)
-ax.plot(binsN[peaks],best_fit_line[peaks], "x")
-
-ax.plot(binsN, best_fit_line)
-ax.vlines(numpy.mean(inthistNorbin), 0, 0.0005, linestyle='dashed',color='green',label='meanNorb')
-ax.vlines(numpy.median(inthistNorbin), 0, 0.0005, color='green',label='medianNorb')
-ax.legend(loc="upper right")
-fig.suptitle('Spot Max intensity')
-pyplot.savefig(output_dir  + 'Spot Max intensity' + str(threshint) + '_peaks.pdf', transparent=True)
-
 
 
 pyplot.figure()
@@ -463,88 +335,13 @@ pyplot.plot(numpy.sort(inthistNorbin1), numpy.linspace(0, 1, len(inthistNorbin1)
 pyplot.legend(loc="upper right")
 pyplot.title('Spot Max intensity')
 pyplot.savefig(outpath + 'Spot Max intensity' + str(threshint) + '_Cumulativecurve.pdf', transparent=True)
-#
-
-pyplot.figure()
-pyplot.plot(numpy.sort(areahistPLKO), numpy.linspace(0, 1, len(areahistPLKO), endpoint=False), label='PLKO')
-pyplot.plot(numpy.sort(areahistFus5), numpy.linspace(0, 1, len(areahistFus5), endpoint=False), label='shFus315')
-pyplot.plot(numpy.sort(areahistFus), numpy.linspace(0, 1, len(areahistFus), endpoint=False), label='shFus318')
-
-pyplot.plot(numpy.sort(areahistNorbin), numpy.linspace(0, 1, len(areahistNorbin), endpoint=False), label='shNorbin')
-pyplot.legend(loc="upper right")
-pyplot.xlim(0, 140)
-pyplot.title('Spot Area')
-pyplot.savefig(outpath + 'Spot Area' + str(threshint) + '_cumulativecurve.pdf', transparent=True)
-
-#pyplot.figure()
-
-xrand1 = numpy.random.normal(1, scale=0.02, size=(len(Norbinarea), 1))
-xrand2 = numpy.random.normal(1.5, scale=0.02, size=(len(Fusarea), 1))
-xrand4 = numpy.random.normal(2, scale=0.02, size=(len(Fusarea5), 1))
-xrand3 = numpy.random.normal(2.5, scale=0.02, size=(len(PLKOarea), 1))
-
-fig, ax = pyplot.subplots(figsize=(12, 8))
-ax.boxplot([Norbinarea, Fusarea,Fusarea5,PLKOarea], positions=[1, 1.5, 2,2.5],
-           labels=['shNorbin02', 'shFus318', 'shFus315','PLKO'])
-ax.scatter(xrand1, Norbinarea)
-ax.scatter(xrand2, Fusarea)
-ax.scatter(xrand3, PLKOarea)
-ax.scatter(xrand4, Fusarea5)
-ax.set_title('Mean spot area')
-pyplot.savefig(output_dir + 'Spot Area' + str(threshint) + '_boxplot_frames.pdf', transparent=True)
-# ax.set_ylim([10,19])
-
-xrand1 = numpy.random.normal(1, scale=0.02, size=(len(Norbinint), 1))
-xrand2 = numpy.random.normal(1.5, scale=0.02, size=(len(Fusint), 1))
-xrand3 = numpy.random.normal(2, scale=0.02, size=(len(PLKOint), 1))
-xrand4 = numpy.random.normal(2.5, scale=0.02, size=(len(Fusint5), 1))
 
 
-##############  normalization #####################################################
+################################
+# Creation of output dictionary
+##################################
 Dictnorm={'PLKO':inthistPLKO,'shNorbin02':inthistNorbin,'shNorbin01':inthistNorbin1,'numPLKO':numclusterPLKO,'numshNorbin02':numclusterNorbin,'numshNorbin01':numclusterNorbin1}
-
-inthistPLKO=inthistPLKO/normfactor
-inthistNorbin=inthistNorbin/normfactor
-inthistNorbin=inthistNorbin1/normfactor
-fig, ax = pyplot.subplots(figsize=(12, 8))
-ax.hist(inthistPLKO, bins=300, density=True, alpha=0.2, label='PLKO')
-ax.hist(inthistFus, bins=300, density=True, alpha=0.2, label='shFus315')
-ax.hist(inthistFus5,bins=300,density=True,alpha=0.2,label='shFus315')
-ax.hist(inthistNorbin, bins=300, density=True, alpha=0.2, label='shNorbin02')
-ax.hist(inthistNorbin1, bins=300, density=True, alpha=0.2, label='shNorbin01')
-ax.legend(loc="upper right")
-fig.suptitle('Spot Max intensity')
-pyplot.savefig(outpath + 'Spot Max intensity' + str(threshint) + '.pdf', transparent=True)
-
-fig, ax = pyplot.subplots(figsize=(12, 8))
-countsP,binsP,p=ax.hist(inthistPLKO, bins=300, density=True, alpha=0.2, label='PLKO')
-
-
-ax.vlines(numpy.mean(inthistPLKO), 0, 1, label='meanPLKO')
-ax.vlines(numpy.median(inthistPLKO), 0, 1, label='medianPLKO')
-
-a,loc,scale  = scipy.stats.skewnorm.fit(inthistPLKO)
-best_fit_line = scipy.stats.skewnorm.pdf(binsP,a,loc,scale)
-peaks, _ = find_peaks(best_fit_line,distance=500)
-ax.plot(binsP[peaks],best_fit_line[peaks], "x")
-
-ax.plot(binsP, best_fit_line)
-
-countsN,binsN,p=ax.hist(inthistNorbin, bins=300, density=True, alpha=0.2, label='shNorbin')
-
-#peaks, _ = find_peaks(countsN,distance=500)
-#ax.plot(binsN[peaks],countsN[peaks], "x")
-ax.vlines(numpy.mean(inthistNorbin), 0, 1, label='meanNorbin')
-ax.vlines(numpy.median(inthistNorbin), 0, 1, label='medianNorbin')
-a,loc,scale  = scipy.stats.skewnorm.fit(inthistNorbin)
-best_fit_line = scipy.stats.skewnorm.pdf(binsN,a,loc,scale)
-peaks, _ = find_peaks(best_fit_line,distance=500)
-ax.plot(binsN[peaks],best_fit_line[peaks], "x")
-ax.plot(binsN, best_fit_line)
-ax.legend(loc="upper right")
-fig.suptitle('Spot Max intensity')
-pyplot.savefig(output_dir  + 'Spot Max intensity' + str(threshint) + '_peaks_normalizedtoskew.pdf', transparent=True)
-numpy.save(output_dir +"Dict190416_normskewnorm.npy", Dictnorm)
+numpy.save(os.path.join(os.getcwd(),"Fusgranules","noMAP2","Dict"+date+"_normskewnorm.npy"), Dictnorm)
 
 
 pyplot.show()

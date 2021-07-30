@@ -37,7 +37,7 @@ structure_channel = 0 #Channel number of Norbin staining
 nucleus_channel= 2 #Channel number of DAPI staining
 #####################
 
-output_dir=os.path.join(os.getcwd(),"masks_"+date+"_medianorm_allslices/")
+output_dir=os.path.join(os.getcwd(),"masks_"+date+"_NCDN/")
 os.makedirs(output_dir,exist_ok=True)
 
 Fusinthist=[]
