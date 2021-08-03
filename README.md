@@ -4,16 +4,17 @@ Analysis codes of FUS granules and cytoplasmic NCDN
 # Cytoplasmic NCDN
 
 Norbin_CytoplasmIntensity_allslices_AllCytoplasm.py must be run for each experimental week. It takes as input the path to a folder containing .lsm files from the Zeiss confocal organized in subfolders with the condition names (PLKO, shFUS315, shFUS318, shNorbin01, shNorbin02)
-![Original image NCDN channel-- Maximal intensity projection of z-stack shown](/images/MasksOutputNCDN_NCDNOriginalImage.png)
-![Original image DAPI channel -- Maximal intensity projection of z-stack shown](/images/MasksOutputNCDN_NucleiOriginalImage.png)
+
+<img src="Images/MasksOutputNCDN_NCDNOriginalImage.png" alt="Original image NCDN channel-- Maximal intensity projection of z-stack shown" width="400"/> <img src="Images/MasksOutputNCDN_NucleiOriginalImage.png" alt="Original image DAPI channel -- Maximal intensity projection of z-stack shown" width="400"/>
 
 
 and returns a foreground mask, a nucleus mask and the masked intensity of the Norbin channel for each image. It also produces a csv file containing the median intensity of each image and a .npy file containing the histogram data of all the images.
-![Foreground Mask --Maximal intensity projection of z-stack shown](/images/MasksOutputNCDN_ForegroundMask.png)
-![Nuclei mask](/images/MasksOutputNCDN_NucleiMask.png)
-![Masked intensity of Norbin --Maximal intensity projection of z-stack shown](/images/MasksOutputNCDN_MaskedIntensity.png)
+<img src="Images/MasksOutputNCDN_ForegroundMask.png" alt="Foreground Mask --Maximal intensity projection of z-stack shown" width="300"/> <img src="Images/MasksOutputNCDN_NucleiMask.png" alt="Nuclei mask" width="300"/> <img src="Images/MasksOutputNCDN_MaskedIntensity.png" alt="Masked intensity of Norbin --Maximal intensity projection of z-stack shown" width="300"/>
+
 The produced csv files can then be taken as input by NCDN_CummingsPlot_Alldates.py which calculates the bootstrapped differences between conditions and produces the Cummings Plots.
-![Cumming Plot](/Norbincumcurve/Median/violinplot_medians_5dates_2std_noshNorb.pdf)
+
+<img src="Norbincumcurve/Median/CummingPlot_pngexport.png" alt="Cumming Plot" width="400"/>
+
 # FUS granules
 
 Since the segmentation parameters were slightly adjusted for each experimental week, a separate python code with the appropriate parameters was produced. For example, SliceSegmentation_LSM_2shFus_3DAICS_slicequantification_Fusclusters_190416_statsCDF.py contains all the paths and parameters to analyze the data acquired on 16-04-2019. This code takes as input the path to a folder containing .lsm files from the Zeiss confocal organized in subfolders with the condition names (PLKO, shFUS315, shFUS318, shNorbin01, shNorbin02)
