@@ -31,4 +31,4 @@ and returns a nucleus mask and a mask of the FUS granules who respect the establ
 
 The produced dictionaries in the .npy files can then be given as input to Fusgranule_CummingsPlot_Alldates.py which calculates the skewnorm fit on the histogram of Fus granule intensities for each image and calculates their bootstrapped differences between conditions and produces the Cummings Plots.
 
-<img src="Fusgranules/noMAP2/graphs/CummingPlot_FUSGranules.png" alt="Cumming Plot" width="500"/>
+<img src="Fusgranules/Cumulative_FUS/graphs/CummingPlot_FUSGranules.png" alt="Cumming Plot" width="500"/>
