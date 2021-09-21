@@ -1,0 +1,41 @@
+<!-- ?xml version='1.0' encoding='UTF-8'? -->
+<link href="css/github-css.css" rel="stylesheet"/>
+<meta charset="utf-8" content="text/html"/>
+<div class="gist">
+<style class="formula-style">
+        svg.gh-md-to-html-formula {
+            fill: black;
+        }
+    </style>
+<div class="gist-file"> <!-- This is the class that is responsible for the boxing! -->
+<div class="gist-data">
+<div class="js-gist-file-update-container js-task-list-container file-box">
+<div class="file" id="user-content-article-README">
+<div class="Box-body readme blob js-code-block-container p-5 p-xl-6" id="user-content-file-docker-image-pull-md-readme" style="margin-left: 40px; margin-right: 40px; margin-top: 20px; margin-bottom: 20px">
+<article class="markdown-body entry-content container-lg" itemprop="text">
+<h2 id="user-content-ncdn-fus">
+<a aria-hidden="true" class="anchor" href="#user-content-ncdn-fus" id="user-content-ncdn-fus" name="user-content-ncdn-fus"><span aria-hidden="true" class="octicon octicon-link"></span></a>NCDN-FUS</h2>
+<p>Analysis codes of FUS granules and cytoplasmic NCDN</p>
+<h1 id="user-content-cytoplasmic-ncdn">
+<a aria-hidden="true" class="anchor" href="#user-content-cytoplasmic-ncdn" id="user-content-cytoplasmic-ncdn" name="user-content-cytoplasmic-ncdn"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cytoplasmic NCDN</h1>
+<p>Norbin_CytoplasmIntensity_allslices_AllCytoplasm.py must be run for each experimental week. It takes as input the path to a folder containing .lsm files from the Zeiss confocal organized in subfolders with the condition names (PLKO, shFUS315, shFUS318)</p>
+<p><a href="/.\main\images/MasksOutputNCDN_NCDNOriginalImage.png" rel="noopener noreferrer" target="_blank"><img alt="Original image NCDN channel-- Maximal intensity projection of z-stack shown" data-canonical-src="/.\main\images/MasksOutputNCDN_NCDNOriginalImage.png" src="/.\main\images/MasksOutputNCDN_NCDNOriginalImage.png" style="max-width:100%; max-height: 1024px;" width="400"/></a> <a href="/.\main\images/MasksOutputNCDN_NucleiOriginalImage.png" rel="noopener noreferrer" target="_blank"><img alt="Original image DAPI channel -- Maximal intensity projection of z-stack shown" data-canonical-src="/.\main\images/MasksOutputNCDN_NucleiOriginalImage.png" src="/.\main\images/MasksOutputNCDN_NucleiOriginalImage.png" style="max-width:100%; max-height: 1024px;" width="400"/></a></p>
+<p>and returns a foreground mask, a nucleus mask and the masked intensity of the Norbin channel for each image. It also produces a csv file containing the median intensity of each image and a .npy file containing the histogram data of all the images.
+<a href="/.\main\images/MasksOutputNCDN_ForegroundMask.png" rel="noopener noreferrer" target="_blank"><img alt="Foreground Mask --Maximal intensity projection of z-stack shown" data-canonical-src="/.\main\images/MasksOutputNCDN_ForegroundMask.png" src="/.\main\images/MasksOutputNCDN_ForegroundMask.png" style="max-width:100%; max-height: 1024px;" width="300"/></a> <a href="/.\main\images/MasksOutputNCDN_NucleiMask.png" rel="noopener noreferrer" target="_blank"><img alt="Nuclei mask" data-canonical-src="/.\main\images/MasksOutputNCDN_NucleiMask.png" src="/.\main\images/MasksOutputNCDN_NucleiMask.png" style="max-width:100%; max-height: 1024px;" width="300"/></a> <a href="/.\main\images/MasksOutputNCDN_MaskedIntensity.png" rel="noopener noreferrer" target="_blank"><img alt="Masked intensity of Norbin --Maximal intensity projection of z-stack shown" data-canonical-src="/.\main\images/MasksOutputNCDN_MaskedIntensity.png" src="/.\main\images/MasksOutputNCDN_MaskedIntensity.png" style="max-width:100%; max-height: 1024px;" width="300"/></a></p>
+<p>The produced csv files can then be taken as input by NCDN_CummingsPlot_Alldates.py which calculates the bootstrapped differences between conditions and produces the Cummings Plots.</p>
+<p><a href="/.\main\images/CummingPlot_pngexport.png" rel="noopener noreferrer" target="_blank"><img alt="Cumming Plot" data-canonical-src="/.\main\images/CummingPlot_pngexport.png" src="/.\main\images/CummingPlot_pngexport.png" style="max-width:100%; max-height: 1333px;" width="400"/></a></p>
+<h1 id="user-content-fus-granules">
+<a aria-hidden="true" class="anchor" href="#user-content-fus-granules" id="user-content-fus-granules" name="user-content-fus-granules"><span aria-hidden="true" class="octicon octicon-link"></span></a>FUS granules</h1>
+<p>Since the segmentation parameters were slightly adjusted for each experimental week, a separate python code with the appropriate parameters was produced. For example, SliceSegmentation_LSM_2shFus_3DAICS_slicequantification_Fusclusters_2021data_statsCDF.py contains all the paths and parameters to analyze the data acquired on 12-04-2021. This code takes as input the path to a folder containing .lsm files from the Zeiss confocal organized in subfolders with the condition names (PLKO, shFUS315, shFUS318, shNorbin01, shNorbin02)</p>
+<p><a href="/.\main\images/MasksOutputFus_ProjectionOriginalImage.png" rel="noopener noreferrer" target="_blank"><img alt="Original image FUS channel (Maximal intensity projection of z-stack shown)" data-canonical-src="/.\main\images/MasksOutputFus_ProjectionOriginalImage.png" src="/.\main\images/MasksOutputFus_ProjectionOriginalImage.png" style="max-width:100%; max-height: 1024px;" width="400"/></a> <a href="/.\main\images/MasksOutputFus_ProjectionOriginalImageNuclei.png" rel="noopener noreferrer" target="_blank"><img alt="Original image DAPI channel (Maximal intensity projection of z-stack shown)" data-canonical-src="/.\main\images/MasksOutputFus_ProjectionOriginalImageNuclei.png" src="/.\main\images/MasksOutputFus_ProjectionOriginalImageNuclei.png" style="max-width:100%; max-height: 1024px;" width="400"/></a></p>
+<p>and returns a nucleus mask and a mask of the FUS granules who respect the established thresholds for size and intensity for each image. It also returns a .npy array containing a dictionnary of the intensities of all the segmented clusters and the number of clusters for each image structured by knockdown condition.</p>
+<p><a href="/.\main\images/MasksOutputFus_FusGranules.png" rel="noopener noreferrer" target="_blank"><img alt="Segmentation mask of FUS clusters" data-canonical-src="/.\main\images/MasksOutputFus_FusGranules.png" src="/.\main\images/MasksOutputFus_FusGranules.png" style="max-width:100%; max-height: 1024px;" width="400"/></a> <a href="/.\main\images/MasksOutputFus_Nuclei.png" rel="noopener noreferrer" target="_blank"><img alt="Segmentation mask of nuclei" data-canonical-src="/.\main\images/MasksOutputFus_Nuclei.png" src="/.\main\images/MasksOutputFus_Nuclei.png" style="max-width:100%; max-height: 1024px;" width="400"/></a></p>
+<p>The produced dictionaries in the .npy files can then be given as input to Fusgranule_CummingsPlot_Alldates.py which calculates the skewnorm fit on the histogram of Fus granule intensities for each image and calculates their bootstrapped differences between conditions and produces the Cummings Plots.</p>
+<p><a href="/.\main\images/CummingPlot_FUSGranules.png" rel="noopener noreferrer" target="_blank"><img alt="Cumming Plot" data-canonical-src="/.\main\images/CummingPlot_FUSGranules.png" src="/.\main\images/CummingPlot_FUSGranules.png" style="max-width:100%; max-height: 718px;" width="500"/></a></p>
+</article>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
