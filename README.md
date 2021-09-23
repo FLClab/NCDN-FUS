@@ -1,7 +1,6 @@
 # NCDN-FUS
-Image analysis codes of confocal image z-stacks used to produce figures 4f (FUS granules) and 6b (cytoplasmic NCDN) in paper:
-
 **A postzygotic de novo NCDN mutation identified in a sporadic FTLD patient results in Neurochondrin haploinsufficiency and altered FUS granule dynamics.**
+This repository contains all code required to analyze confocal image z-stacks to produce figures 4f (FUS granules) and 6b (cytoplasmic NCDN). Sample images are included to test the method.
 
 ## Cytoplasmic NCDN
 
@@ -19,6 +18,7 @@ The produced csv files can then be taken as input by `NCDN_CummingsPlot_Alldates
 
 
 ## FUS granules
+The code for segmentation of the FUS granules is based on The Allen Cell & Structure Segmenter (https://github.com/AllenCell/aics-segmentation)
 
 Since the segmentation parameters were slightly adjusted for each experimental week, a separate python code with the appropriate parameters was produced. For example, [`SliceSegmentation_LSM_2shFus_3DAICS_slicequantification_Fusclusters_2021data_statsCDF.py`](fusgranules/) contains all the paths and parameters to analyze the data acquired on 12-04-2021. This code takes as input the path to a folder containing .lsm files from the Zeiss confocal organized in subfolders with the condition names (PLKO, shNorbin01, shNorbin02) and the date of image acquisition (variable date). [Example image stacks of each condition from 12-04-2021 are provided.](fusgranules/Example_Data/)
 
