@@ -7,11 +7,11 @@ Image analysis codes of confocal image z-stacks used to produce figures 4f (FUS 
 
 [`Norbin_CytoplasmIntensity_allslices_AllCytoplasm.py`](Norbin_Cytoplasmic/) must be run for each experimental week. It takes as input the path to a folder containing .lsm files from the Zeiss confocal organized in subfolders with the condition names (PLKO, shFUS315, shFUS318). [Example image stacks of each condition are provided.](Norbin_Cytoplasmic/Example_Data/)
 
-<img src="Images/MasksOutputNCDN_NCDNOriginalImage.png" alt="Original image NCDN channel-- Maximal intensity projection of z-stack shown" width="300"/> <img src="Images/MasksOutputNCDN_NucleiOriginalImage.png" alt="Original image DAPI channel -- Maximal intensity projection of z-stack shown" width="300"/>
+<img src="Images/MasksOutputNCDN_NCDNOriginalImage.png" alt="Original image NCDN channel-- Maximal intensity projection of z-stack shown" width="250"/> <img src="Images/MasksOutputNCDN_NucleiOriginalImage.png" alt="Original image DAPI channel -- Maximal intensity projection of z-stack shown" width="250"/>
 
 It returns a foreground mask, a nucleus mask and the masked intensity of the Norbin channel for each image. It also produces a csv file containing the median intensity of each image and a .npy file containing the histogram data of all the images. These files are saved to a folder named masks_+date+_NCDN 
 
-<img src="Images/MasksOutputNCDN_ForegroundMask.png" alt="Foreground Mask --Maximal intensity projection of z-stack shown" width="300"/> <img src="Images/MasksOutputNCDN_NucleiMask.png" alt="Nuclei mask" width="300"/> <img src="Images/MasksOutputNCDN_MaskedIntensity.png" alt="Masked intensity of Norbin --Maximal intensity projection of z-stack shown" width="300"/>
+<img src="Images/MasksOutputNCDN_ForegroundMask.png" alt="Foreground Mask --Maximal intensity projection of z-stack shown" width="250"/> <img src="Images/MasksOutputNCDN_NucleiMask.png" alt="Nuclei mask" width="250"/> <img src="Images/MasksOutputNCDN_MaskedIntensity.png" alt="Masked intensity of Norbin --Maximal intensity projection of z-stack shown" width="250"/>
 
 The produced csv files can then be taken as input by `NCDN_CummingsPlot_Alldates.py` which calculates the bootstrapped differences between conditions and produces the Cummings Plot as shown below. The csv files from all experimental dates included in the paper are available [here](Norbin_Cytoplasmic/Norbincumcurve/Example_Data)
 
