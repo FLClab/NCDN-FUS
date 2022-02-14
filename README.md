@@ -2,6 +2,8 @@
 **A postzygotic de novo NCDN mutation identified in a sporadic FTLD patient results in Neurochondrin haploinsufficiency and altered FUS granule dynamics.**
 
 This repository contains all code required to analyze confocal image z-stacks to produce figures 4f (FUS granules) and 6b (cytoplasmic NCDN). Sample images are included to test the method.
+The paper is available at https://doi.org/10.1186/s40478-022-01314-x
+The datasets can be downloaded at https://s3.valeria.science/ncdn-fus/index.html. 
 
 ## Cytoplasmic NCDN
 
